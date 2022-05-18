@@ -33,7 +33,7 @@
 ```{"username": "admin", "token": "U2FsdGVkX19dC/liDZG3E9oA8iDCW2YzEAjtLZ2EZaknkmmRIcezCfc0t8k6PwhNf48I89NY8je12MhDv/sAiDfE9nNEj+4n1Gh/V1MX4+k="}```
   this token is only for example, this will not work
 
-## post sign_in
+## post /sign_in
 
 <p>post username and password to sign in (timeout = 7200s)</p>
 <p>success: 200</p>
@@ -45,7 +45,7 @@
 ```{"username": "admin", "password": "password"}```
   this is the default login user
 
-## post sign_up
+## post /sign_up
 
 <p>post username and password to sign up</p>
 <p>success: 200</p>
