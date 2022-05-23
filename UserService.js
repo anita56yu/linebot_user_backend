@@ -1,11 +1,11 @@
 const User = require("./User")
 const HashCode = require('./HashCode.js');
-var mysql = require('mysql');
+var mysql = require('mysql2');
 
 var client = mysql.createConnection({
   host: "localhost",
-  user: "root",
-  password: "password",
+  user: "mozixreality",
+  password: "ylsh510574",
   database: "user_server"
 });
 
@@ -38,11 +38,11 @@ function addUser(username, password){
   client.query(sql);
 }
 
-function isValid(username, token){
+function isValid(token){
   return new Promise(function(resolve, reject){
-    getUuid(username).then(function(uuid){
-      if(uuid!=false && HashCode.dehash(token, uuid)){
-        resolve(true);
+    getUuid(token).then(function(uuid){
+      if(uuid!=false){
+        resolve(uuid);
       }else{
         resolve(false);
       }
@@ -50,9 +50,17 @@ function isValid(username, token){
   });
 }
 
-function getUuid(username){
+function addToken(username, token){
+  const sql = `
+    UPDATE user 
+    SET token='${token}'
+    WHERE username='${username}';`;
+  client.query(sql);
+}
+
+function getUuid(token){
   return new Promise(function(resolve, reject){
-      const sql =  `SELECT * FROM user Where username='${username}';`;
+      const sql =  `SELECT uuid FROM user Where token='${token}';`;
       client.query(sql, function(err, rows) {
       if(rows === undefined){
         reject(new Error("Error rows is undefined"));
@@ -69,6 +77,7 @@ function getUuid(username){
 
 module.exports = {
   isUser:isUser,
-  addUser:addUser, 
+  addUser:addUser,
+  addToken:addToken, 
   isValid:isValid
 }
